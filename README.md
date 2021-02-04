@@ -1,6 +1,6 @@
 # Kattis Scraper
 
-## This is a web crawler bot created to show the difficulties of problems in Kattis contest 
+This is a web crawler bot created to show the difficulties of problems in Kattis contest 
 
 ## Usage instructions:
 
