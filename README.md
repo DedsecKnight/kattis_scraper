@@ -9,8 +9,4 @@ Install BeautifulSoup and Scrapy for Python <br />
 Cd into this directory <br />
 Run "scrapy crawl kattis" <br />
 When prompted, type in the contest ID, which can be found after "/contests" in the contest URL <br />
-<<<<<<< HEAD
 Information about the problemset will be exported to problem_list.txt <br />
-=======
-Information about the problemset will be exported to problem_list.txt <br />
->>>>>>> 87564a47e312809c792baf02422a77d83a08a94b
