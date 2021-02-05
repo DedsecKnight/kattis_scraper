@@ -10,6 +10,7 @@ class KattisScraperItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     name = scrapy.Field()
+    letter = scrapy.Field()
     problem_id = scrapy.Field()
     difficulty = scrapy.Field()
 

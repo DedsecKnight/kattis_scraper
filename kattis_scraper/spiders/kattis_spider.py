@@ -35,15 +35,17 @@ class KattisSpider(Spider):
 
         problem_list = soup.find_all('tr')
         for problem in problem_list:
+            problem_letter = problem.find('th').get_text()
             problem_name = problem.find('td').find('a').get_text()
             problem_link = problem.find('td').find('a')['href']
             start_idx = problem_link.index('/problems')
             problem_link = self.BASE_URL + problem_link[start_idx:]
             yield Request(url = problem_link, callback = self.problem_parse, cb_kwargs=dict(
-                problem_name = problem_name
+                problem_name = problem_name, 
+                problem_letter = problem_letter
             ))
     
-    def problem_parse(self, response, problem_name):
+    def problem_parse(self, response, problem_name, problem_letter):
         soup = BeautifulSoup(markup = response.text, features='lxml')
         sidebar = soup.find('div', class_='problem-sidebar sidebar-info').find_all('div', class_='sidebar-info')[1]
         
@@ -51,5 +53,5 @@ class KattisSpider(Spider):
         problem_id = problem_info[0].get_text()
         difficulty = problem_info[3].get_text()
 
-        yield KattisScraperItem(name=problem_name, problem_id=problem_id, difficulty=difficulty)
+        yield KattisScraperItem(name=problem_name, letter=problem_letter, problem_id=problem_id, difficulty=difficulty)
 

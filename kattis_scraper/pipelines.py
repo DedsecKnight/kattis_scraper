@@ -10,16 +10,21 @@ from kattis_scraper.items import KattisScraperItem
 
 class KattisScraperPipeline:
     def open_spider(self, spider):
-        self.file = open('problem_list.txt', 'w', encoding='utf-8')
+        self.problem_list = []
+        
 
     def close_spider(self, spider):
+        self.file = open('problem_list.txt', 'w', encoding='utf-8')
+        for item in sorted(self.problem_list, key = lambda x : x['difficulty']):
+            self.file.write(f"Problem {str(item['letter'])}" + '\n')
+            self.file.write(str(item['name']) + '\n')
+            self.file.write(str(item['problem_id']) + '\n')
+            self.file.write(str(item['difficulty']) + '\n\n')
         self.file.close()
 
     def process_item(self, item, spider):
         if (isinstance(item, KattisScraperItem)):
-            self.file.write(str(item['name']) + '\n')
-            self.file.write(str(item['problem_id']) + '\n')
-            self.file.write(str(item['difficulty']) + '\n\n')
+            self.problem_list.append(item)  
         else: 
             self.file.write(str(item['notification']) + '\n')
         return item
