@@ -9,10 +9,10 @@ Install Python 3.9 <br />
 Install BeautifulSoup and Scrapy for Python <br />
 
 ### Template-generating instructions
-Go to pipelines.py
-Set KATTIS_PATH to the path where you want to store your submissions
-Set FILE_TYPE to your preferred programming language (currently supports)
-Sample templates are included in this repository
+Go to pipelines.py <br />
+Set KATTIS_PATH to the path where you want to store your submissions <br />
+Set FILE_TYPE to your preferred programming language (currently supports C++ and Java) <br />
+Sample templates are included in this repository <br />
 
 ### Execution instructions
 Cd into this directory <br />
