@@ -14,7 +14,7 @@ import os
 
 class KattisScraperPipeline:
     # Specify where you want your submission file to be generated
-    KATTIS_PATH = r"C:/Users/miken/Desktop/CP/kattis/contests"
+    KATTIS_PATH = r"kattis/contests"
 
     # Specify the language for your submission file (currently supports cpp, java, and py)
     FILE_TYPE = "cpp"
