@@ -16,7 +16,7 @@ class KattisScraperPipeline:
     # Specify where you want your submission file to be generated
     KATTIS_PATH = r"kattis/contests"
 
-    # Specify the language for your submission file (currently supports cpp, java, and py)
+    # Specify the language for your submission file (currently supports cpp and java)
     FILE_TYPE = "cpp"
 
     # Specify whether you want to generate submission file
