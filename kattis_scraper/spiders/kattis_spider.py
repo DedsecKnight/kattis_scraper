@@ -1,5 +1,4 @@
-from kattis_scraper.items import KattisScraperItem
-from kattis_scraper.items import AlertItem
+from kattis_scraper.items import KattisScraperItem, AlertItem, ContestID
 from scrapy import Request, Spider
 from bs4 import BeautifulSoup
 
@@ -13,19 +12,26 @@ class KattisSpider(Spider):
         return f'{self.BASE_URL}/contests/{contest_id}/problems'
 
     def start_requests(self):
-        urls = [self.get_problemset(input('Enter contest id: '))]
+        contest_id = input('Enter contest id: ')
+
+        urls = [self.get_problemset(contest_id)]
         for url in urls: 
-            yield Request(url=url, callback=self.contest_parse)
+            yield Request(url=url, callback=self.contest_parse, cb_kwargs=dict(
+                contest_id = contest_id
+            ))
         
-    
-    def contest_parse(self, response):
+    def contest_parse(self, response, contest_id):
+        # Check if contest ID is valid
         problem_page = response.css('.page-content, .boxed, .clearfix').getall()
         if (len(problem_page) <= 2): 
             yield AlertItem(notification="Invalid contest ID")
             return
         
+        # Send contest ID to pipeline
+        yield ContestID(cid=contest_id)
+        
+        # Check if problemset can be accessed
         soup = BeautifulSoup(markup = problem_page[2], features = 'lxml')
-
         soup = soup.find('table', { 'id' : 'contest_problem_list' })
         if (not soup):
             yield AlertItem(notification="Contest hasn't started yet")
@@ -33,6 +39,7 @@ class KattisSpider(Spider):
 
         soup = soup.find('tbody')
 
+        # Process each problem in the problemset
         problem_list = soup.find_all('tr')
         for problem in problem_list:
             problem_letter = problem.find('th').get_text()
@@ -49,9 +56,9 @@ class KattisSpider(Spider):
         soup = BeautifulSoup(markup = response.text, features='lxml')
         sidebar = soup.find('div', class_='problem-sidebar sidebar-info').find_all('div', class_='sidebar-info')[1]
         
+        # Get problem ID and difficulty
         problem_info = sidebar.find_all('p')
-        problem_id = problem_info[0].get_text()
         difficulty = problem_info[3].get_text()
 
-        yield KattisScraperItem(name=problem_name, letter=problem_letter, problem_id=problem_id, difficulty=difficulty)
+        yield KattisScraperItem(name=problem_name, letter=problem_letter, difficulty=difficulty)
 

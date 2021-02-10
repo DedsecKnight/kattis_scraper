@@ -11,8 +11,10 @@ class KattisScraperItem(scrapy.Item):
     # name = scrapy.Field()
     name = scrapy.Field()
     letter = scrapy.Field()
-    problem_id = scrapy.Field()
     difficulty = scrapy.Field()
 
 class AlertItem(scrapy.Item):
     notification = scrapy.Field()
+
+class ContestID(scrapy.Item):
+    cid = scrapy.Field()
